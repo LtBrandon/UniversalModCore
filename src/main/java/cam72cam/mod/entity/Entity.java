@@ -21,6 +21,7 @@ public class Entity {
     public final EntitySync sync;
     public net.minecraft.entity.Entity internal;
     private ModdedEntity modded;
+    private IBoundingBox cachedBoundingBox;
 
     protected Entity() {
         this.sync = new EntitySync(this);
@@ -213,7 +214,11 @@ public class Entity {
     }
 
     public IBoundingBox getBounds() {
-        return IBoundingBox.from(internal.getEntityBoundingBox());
+        if (cachedBoundingBox == null) {
+            cachedBoundingBox = IBoundingBox.from(internal.getEntityBoundingBox());
+        }
+
+        return cachedBoundingBox;
     }
 
     public float getRotationYawHead() {

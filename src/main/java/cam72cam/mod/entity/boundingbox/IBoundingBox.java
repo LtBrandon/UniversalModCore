@@ -13,7 +13,7 @@ public interface IBoundingBox {
         AxisAlignedBB internal = in;
         return new IBoundingBox() {
             @Override
-            public IBoundingBox updateInternal(IBoundingBox newInternal) {
+            public IBoundingBox updateInternal(AxisAlignedBB newInternal) {
                 internal = newInternal;
                 return this;
             }
@@ -100,8 +100,6 @@ public interface IBoundingBox {
     boolean intersects(Vec3d min, Vec3d max);
 
     boolean contains(Vec3d vec);
-
-    IBoundingBox updateInternal(AxisAlignedBB newInternal);
 
     default IBoundingBox updateInternal(AxisAlignedBB newInternal) {
         return this;

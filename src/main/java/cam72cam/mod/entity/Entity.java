@@ -216,6 +216,8 @@ public class Entity {
     public IBoundingBox getBounds() {
         if (cachedBoundingBox == null) {
             cachedBoundingBox = IBoundingBox.from(internal.getEntityBoundingBox());
+        } else {
+            cachedBoundingBox.updateInternal(internal.getEntityBoundingBox());
         }
 
         return cachedBoundingBox;

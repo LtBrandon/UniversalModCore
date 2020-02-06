@@ -5,11 +5,19 @@ import cam72cam.mod.math.Vec3i;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public interface IBoundingBox {
-    static IBoundingBox from(AxisAlignedBB internal) {
-        if (internal == null) {
+    static IBoundingBox from(AxisAlignedBB in) {
+        if (in == null) {
             return null;
         }
+
+        AxisAlignedBB internal = in;
         return new IBoundingBox() {
+            @Override
+            public IBoundingBox updateInternal(IBoundingBox newInternal) {
+                internal = newInternal;
+                return this;
+            }
+
             @Override
             public Vec3d min() {
                 return new Vec3d(internal.minX, internal.minY, internal.minZ);
@@ -92,6 +100,12 @@ public interface IBoundingBox {
     boolean intersects(Vec3d min, Vec3d max);
 
     boolean contains(Vec3d vec);
+
+    IBoundingBox updateInternal(AxisAlignedBB newInternal);
+
+    default IBoundingBox updateInternal(AxisAlignedBB newInternal) {
+        return this;
+    }
 
     default boolean intersects(IBoundingBox bounds) {
         return this.intersects(bounds.min(), bounds.max());

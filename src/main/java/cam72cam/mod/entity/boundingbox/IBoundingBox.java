@@ -10,8 +10,9 @@ public interface IBoundingBox {
             return null;
         }
 
-        AxisAlignedBB internal = in;
-        return new IBoundingBox() {
+        IBoundingBox newBounds = new IBoundingBox() {
+            AxisAlignedBB internal;
+
             @Override
             public IBoundingBox updateInternal(AxisAlignedBB newInternal) {
                 internal = newInternal;
@@ -73,6 +74,10 @@ public interface IBoundingBox {
                 return internal.contains(vec.internal);
             }
         };
+
+        newBounds.updateInternal(in);
+
+        return newBounds;
     }
 
     static IBoundingBox from(Vec3i pos) {
